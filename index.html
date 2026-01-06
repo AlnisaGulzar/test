@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoVerse | Interactive Gallery</title>
+    <style>
+        /* CSS - The Styling & Animations */
+        :root {
+            --primary-bg: #1a1a1a;
+            --accent-color: #ff4757;
+            --text-color: #ffffff;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            padding: 2rem;
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        /* The Grid Layout */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            width: 90%;
+        }
+
+        /* Photo Card Styling */
+        .photo-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Entrance Animation */
+        .photo-card.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Hover Effects */
+        .photo-card:hover img {
+            transform: scale(1.1) rotate(2deg);
+            filter: brightness(70%);
+        }
+
+        .photo-card .overlay {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 71, 87, 0.8);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            transition: bottom 0.3s ease;
+        }
+
+        .photo-card:hover .overlay {
+            bottom: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Captured Moments</h1>
+        <p>A CSS & JS Animated Gallery</p>
+    </header>
+
+    <div class="gallery" id="gallery">
+        <div class="photo-card">
+            <img src="https://picsum.photos/id/10/600/400" alt="Nature">
+            <div class="overlay">Mountain View</div>
+        </div>
+        <div class="photo-card">
+            <img src="https://picsum.photos/id/20/600/400" alt="Tech">
+            <div class="overlay">Workspace</div>
+        </div>
+        <div class="photo-card">
+            <img src="https://picsum.photos/id/30/600/400" alt="City">
+            <div class="overlay">Urban Life</div>
+        </div>
+        <div class="photo-card">
+            <img src="https://picsum.photos/id/40/600/400" alt="Animal">
+            <div class="overlay">Wildlife</div>
+        </div>
+    </div>
+
+    <script>
+        // JS - Interaction and Scroll Reveal
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.photo-card');
+
+            // Staggered reveal animation
+            const revealCards = () => {
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('reveal');
+                    }, index * 200); // 200ms delay between each card
+                });
+            };
+
+            // Run reveal on load
+            revealCards();
+
+            // Simple Click Event for "Capturing" interaction
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.style.boxShadow = "0 0 20px #ff4757";
+                    alert("You've selected this photo!");
+                    setTimeout(() => card.style.boxShadow = "none", 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
